@@ -1,7 +1,6 @@
 import Header from "./Header";
 import Toolbar from "./Toolbar";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { baseApi } from "../baseAPI";
 
 type UserData = {
@@ -75,7 +74,7 @@ const UserManagementTable: React.FC = () => {
         : "https://user-management-backend-navy.vercel.app/user/delete-users";
 
     try {
-      await axios.post(url, selcetedIds, {
+      await baseApi.post(url, selcetedIds, {
         headers: {
           Authorization: localStorage.getItem("token"),
         },
