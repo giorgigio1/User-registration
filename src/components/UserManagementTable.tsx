@@ -68,10 +68,10 @@ const UserManagementTable: React.FC = () => {
   ) => {
     let url =
       whatToDo === "block"
-        ? "https://user-management-backend-navy.vercel.app/user/block-users"
+        ? "user/block-users"
         : whatToDo === "unblock"
-        ? "https://user-management-backend-navy.vercel.app/user/unblock-users"
-        : "https://user-management-backend-navy.vercel.app/user/delete-users";
+        ? "user/unblock-users"
+        : "user/delete-users";
 
     try {
       await baseApi.post(url, selcetedIds, {
