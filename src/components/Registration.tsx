@@ -59,12 +59,17 @@ const Registration: React.FC = () => {
             onChange={handleChange}
           />
         </div>
-        <button type="submit" className="btn btn-primary mt-3">
-          Register
-        </button>
-        <Link to="/login" className="btn btn-primary mt-3 ms-3">
-          Login
-        </Link>
+        <div className="mb-2">
+          <button type="submit" className="btn btn-primary mt-3">
+            Register
+          </button>
+        </div>
+        <div>
+          Go to{" "}
+          <Link to="/login" >
+            Login
+          </Link>
+        </div>
       </form>
     </div>
   );

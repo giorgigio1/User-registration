@@ -63,12 +63,16 @@ const Login: React.FC = () => {
             onChange={handleChange}
           />
         </div>
-        <button type="submit" className="btn btn-primary mt-3">
-          Login
-        </button>
-        <Link to="/register" className="btn btn-primary mt-3 ms-3">
-          Register
-        </Link>
+        <div className="mb-2">
+          <button type="submit" className="btn btn-primary mt-3">
+            Login
+          </button>
+        </div>
+        <div>
+          <Link to="/register">
+            Create new account
+          </Link>
+        </div>
       </form>
 
       {error.show && (
