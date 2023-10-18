@@ -1,6 +1,6 @@
-import axios from "axios";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { baseApi } from "../baseAPI";
 
 const Registration: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -20,10 +20,7 @@ const Registration: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const response = await axios.post(
-      "http://localhost:5000/auth/register",
-      formData
-    );
+    const response = await baseApi.post("auth/register", formData);
     const { token } = response.data;
 
     localStorage.setItem("token", token);

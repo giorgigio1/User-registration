@@ -1,6 +1,6 @@
-import axios from "axios";
 import React, { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { baseApi } from "../baseAPI";
 
 const Login: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -25,10 +25,7 @@ const Login: React.FC = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post(
-        "http://localhost:5000/auth/login",
-        formData
-      );
+      const response = await baseApi.post("auth/login", formData);
 
       const { token } = response.data;
 

@@ -2,6 +2,7 @@ import Header from "./Header";
 import Toolbar from "./Toolbar";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { baseApi } from "../baseAPI";
 
 type UserData = {
   username: string;
@@ -41,14 +42,11 @@ const UserManagementTable: React.FC = () => {
       isSuccess: false,
     }));
     try {
-      const response = await axios.get(
-        "http://localhost:5000/user/fetch-users",
-        {
-          headers: {
-            Authorization: localStorage.getItem("token"), // Send the token for authentication
-          },
-        }
-      );
+      const response = await baseApi.get("user/fetch-users", {
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      });
 
       setUser({
         isLoading: false,
@@ -71,10 +69,10 @@ const UserManagementTable: React.FC = () => {
   ) => {
     let url =
       whatToDo === "block"
-        ? "http://localhost:5000/user/block-users"
+        ? "https://user-management-backend-navy.vercel.app/user/block-users"
         : whatToDo === "unblock"
-        ? "http://localhost:5000/user/unblock-users"
-        : "http://localhost:5000/user/delete-users";
+        ? "https://user-management-backend-navy.vercel.app/user/unblock-users"
+        : "https://user-management-backend-navy.vercel.app/user/delete-users";
 
     try {
       await axios.post(url, selcetedIds, {
