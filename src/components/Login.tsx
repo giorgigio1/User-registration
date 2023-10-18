@@ -69,7 +69,9 @@ const Login: React.FC = () => {
         <button type="submit" className="btn btn-primary mt-3">
           Login
         </button>
-        <Link to="/register" className="btn btn-primary mt-3 ms-3">Register</Link>
+        <Link to="/register" className="btn btn-primary mt-3 ms-3">
+          Register
+        </Link>
       </form>
 
       {error.show && (

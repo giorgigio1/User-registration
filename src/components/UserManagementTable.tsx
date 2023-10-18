@@ -79,7 +79,7 @@ const UserManagementTable: React.FC = () => {
     try {
       await axios.post(url, selcetedIds, {
         headers: {
-          Authorization: localStorage.getItem("token"), // Send the token for authentication
+          Authorization: localStorage.getItem("token"),
         },
       });
 

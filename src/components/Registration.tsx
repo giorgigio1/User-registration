@@ -65,7 +65,9 @@ const Registration: React.FC = () => {
         <button type="submit" className="btn btn-primary mt-3">
           Register
         </button>
-        <Link to="/login" className="btn btn-primary mt-3 ms-3">Login</Link>
+        <Link to="/login" className="btn btn-primary mt-3 ms-3">
+          Login
+        </Link>
       </form>
     </div>
   );

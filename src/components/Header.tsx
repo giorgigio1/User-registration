@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 
 type TokenData = { exp: number; userId: string; name: string };
@@ -30,7 +29,7 @@ const Header = () => {
         className="me-5 text-primary"
         onClick={() => {
           localStorage.removeItem("token");
-          navigate("/login" , { replace: true });
+          navigate("/login", { replace: true });
         }}
       >
         Log out
