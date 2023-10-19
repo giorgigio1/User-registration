@@ -7,7 +7,10 @@ const Toolbar = ({
 }) => {
   return (
     <figure className="d-flex py-2">
-      <button onClick={() => onBlockUser("block")} className="border p-2">
+      <button
+        onClick={() => onBlockUser("block")}
+        className="border p-2 text-danger"
+      >
         <BsLockFill style={{ fontSize: "30px", cursor: "pointer" }} />
         <span>Block</span>
       </button>
@@ -15,9 +18,7 @@ const Toolbar = ({
         <BsFillUnlockFill style={{ fontSize: "30px", cursor: "pointer" }} />
       </button>
       <button onClick={() => onBlockUser("delete")} className="p-2">
-        <BsFillTrashFill
-          style={{ fontSize: "30px", color: "red", cursor: "pointer" }}
-        />
+        <BsFillTrashFill style={{ fontSize: "30px", cursor: "pointer" }} />
       </button>
     </figure>
   );

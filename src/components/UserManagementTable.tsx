@@ -2,6 +2,7 @@ import Header from "./Header";
 import Toolbar from "./Toolbar";
 import { useEffect, useState } from "react";
 import { baseApi } from "../baseAPI";
+import jwtDecode from "jwt-decode";
 
 type UserData = {
   username: string;
@@ -73,12 +74,22 @@ const UserManagementTable: React.FC = () => {
         ? "user/unblock-users"
         : "user/delete-users";
 
+    const token = localStorage.getItem("token");
+
     try {
       await baseApi.post(url, selcetedIds, {
         headers: {
-          Authorization: localStorage.getItem("token"),
+          Authorization: token,
         },
       });
+
+      const decodeToken = jwtDecode<{ userId: string }>(token!);
+
+      if (whatToDo === "block" && selcetedIds.includes(decodeToken.userId)) {
+        localStorage.removeItem("token");
+        window.location.href = "/login";
+        return ;
+      }
 
       fetchUsers();
       setSelectedIds([]);
