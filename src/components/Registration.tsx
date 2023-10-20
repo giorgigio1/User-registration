@@ -2,7 +2,7 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { baseApi } from "../baseAPI";
 import { ErrorMessage, Field, Form, Formik, FormikHelpers } from "formik";
-import { validationSchema } from "../validation/schema";
+import { registerValidationSchema } from "../validation/schema";
 
 interface FormValuesType {
   username: string;
@@ -38,7 +38,7 @@ const Registration: React.FC = () => {
       <h2>Registration</h2>
       <Formik
         initialValues={initialValues}
-        validationSchema={validationSchema}
+        validationSchema={registerValidationSchema}
         onSubmit={onSubmit}
       >
         {() => (
@@ -63,7 +63,7 @@ const Registration: React.FC = () => {
             </div>
             <div className="form-group">
               <label className="mt-3">Password</label>
-              <Field type="text" className="form-control" name="password" />
+              <Field type="password" className="form-control" name="password" />
               <ErrorMessage
                 name="password"
                 component="span"

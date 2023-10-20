@@ -1,84 +1,75 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { baseApi } from "../baseAPI";
+import { ErrorMessage, Field, Form, Formik } from "formik";
+import { loginValidationSchema } from "../validation/schema";
 
 const Login: React.FC = () => {
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
-
   const { state } = useLocation();
-
-  const [error, setError] = useState({
-    show: false,
-    message: "Incorrect email or password.",
-  });
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
   const navigate = useNavigate();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const initialValues = {
+    email: "",
+    password: "",
+  };
 
+  const onSubmit = async (
+    values: any,
+    { setSubmitting, setFieldError }: any
+  ) => {
     try {
-      const response = await baseApi.post("auth/login", formData);
-
+      const response = await baseApi.post("auth/login", values);
       const { token } = response.data;
-
       localStorage.setItem("token", token);
-
       navigate("/user-management");
     } catch (error) {
-      setError({
-        show: true,
-        message: "Incorrect email or password.",
-      });
+      setFieldError("password", "Incorrect email or password.");
       console.error("Login error:", error);
     }
+    setSubmitting(false);
   };
 
   return (
     <div className="container mt-5">
       <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label className="mt-3">Email</label>
-          <input
-            type="email"
-            className="form-control"
-            name="email"
-            onChange={handleChange}
-          />
-        </div>
-        <div className="form-group">
-          <label className="mt-3">Password</label>
-          <input
-            type="password"
-            className="form-control"
-            name="password"
-            onChange={handleChange}
-          />
-        </div>
-        <div className="mb-2">
-          <button type="submit" className="btn btn-primary mt-3">
-            Login
-          </button>
-        </div>
-        <div>
-          <Link to="/register">Create new account</Link>
-        </div>
-      </form>
-
-      {error.show && (
-        <p className="mt-3 text-danger">{error.show ? error.message : ""}</p>
-      )}
-
+      <Formik
+        initialValues={initialValues}
+        onSubmit={onSubmit}
+        validationSchema={loginValidationSchema}
+      >
+        {() => (
+          <Form>
+            <div className="form-group">
+              <label className="mt-3">Email</label>
+              <Field type="email" className="form-control" name="email" />
+              <ErrorMessage
+                name="email"
+                component="div"
+                className="text-danger"
+              />
+            </div>
+            <div className="form-group">
+              <label className="mt-3">Password</label>
+              <Field type="password" className="form-control" name="password" />
+              <ErrorMessage
+                name="password"
+                component="div"
+                className="text-danger"
+              />
+            </div>
+            <div className="mb-2">
+              <button type="submit" className="btn btn-primary mt-3">
+                Login
+              </button>
+            </div>
+            <div>
+              <Link to="/register">Create new account</Link>
+            </div>
+          </Form>
+        )}
+      </Formik>
       {state?.isBlocked && (
-        <p className="mt-3 text-danger">sorry you are blocked</p>
+        <p className="mt-3 text-danger">Sorry, you are blocked</p>
       )}
     </div>
   );
