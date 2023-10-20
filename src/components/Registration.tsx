@@ -1,85 +1,76 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { baseApi } from "../baseAPI";
-import { ErrorMessage, Field, Form, Formik, FormikHelpers } from "formik";
+import { ErrorMessage, Field, Form, Formik } from "formik";
 import { registerValidationSchema } from "../validation/schema";
-
-interface FormValuesType {
-  username: string;
-  email: string;
-  password: string;
-}
+import { AxiosError } from "axios";
 
 const Registration: React.FC = () => {
   const navigate = useNavigate();
-
-  const initialValues = {
-    username: "",
-    email: "",
-    password: "",
-  };
-
-  const onSubmit = async (
-    values: FormValuesType,
-    { setSubmitting }: FormikHelpers<FormValuesType>
-  ) => {
-    try {
-      const response = await baseApi.post("auth/register", values);
-      const { token } = response.data;
-
-      localStorage.setItem("token", token);
-      navigate("/user-management");
-    } catch (error) {}
-    setSubmitting(false);
-  };
 
   return (
     <div className="container mt-5">
       <h2>Registration</h2>
       <Formik
-        initialValues={initialValues}
+        initialValues={{
+          fullname: "",
+          email: "",
+          password: "",
+        }}
+        onSubmit={async (values, { setSubmitting, setFieldError }) => {
+          try {
+            const response = await baseApi.post("auth/register", values);
+            const { token } = response.data;
+
+            localStorage.setItem("token", token);
+            navigate("/user-management");
+          } catch (error) {
+            if (error instanceof AxiosError) {
+              setFieldError("email", error.response?.data.message);
+            }
+            console.error(error);
+          }
+          setSubmitting(false);
+        }}
         validationSchema={registerValidationSchema}
-        onSubmit={onSubmit}
       >
-        {() => (
-          <Form>
-            <div className="form-group">
-              <label>Username</label>
-              <Field type="text" name="username" className="form-control" />
-              <ErrorMessage
-                name="username"
-                component="span"
-                className="text-danger"
-              />
-            </div>
-            <div className="form-group">
-              <label className="mt-3">Email</label>
-              <Field type="email" className="form-control" name="email" />
-              <ErrorMessage
-                name="email"
-                component="span"
-                className="text-danger"
-              />
-            </div>
-            <div className="form-group">
-              <label className="mt-3">Password</label>
-              <Field type="password" className="form-control" name="password" />
-              <ErrorMessage
-                name="password"
-                component="span"
-                className="text-danger"
-              />
-            </div>
-            <div className="mb-2">
-              <button type="submit" className="btn btn-primary mt-3">
-                Register
-              </button>
-            </div>
-            <div>
-              Go to <Link to="/login">Login</Link>
-            </div>
-          </Form>
-        )}
+        <Form>
+          <div className="form-group">
+            <label>Name</label>
+            <Field type="text" name="fullname" className="form-control" />
+            <ErrorMessage
+              name="fullname"
+              component="span"
+              className="text-danger"
+            />
+          </div>
+          <div className="form-group">
+            <label className="mt-3">Email</label>
+            <Field type="email" className="form-control" name="email" />
+            <ErrorMessage
+              name="email"
+              component="span"
+              className="text-danger"
+            />
+          </div>
+          <div className="form-group">
+            <label className="mt-3">Password</label>
+            <Field type="password" className="form-control" name="password" />
+            <ErrorMessage
+              name="password"
+              component="span"
+              className="text-danger"
+            />
+          </div>
+          <div className="mb-2">
+            <button type="submit" className="btn btn-primary mt-3">
+              Register
+            </button>
+          </div>
+          <div>
+            Go to <Link to="/login">Login</Link>
+          </div>
+        </Form>
       </Formik>
     </div>
   );

@@ -5,7 +5,7 @@ import { baseApi } from "../baseAPI";
 import jwtDecode from "jwt-decode";
 
 type UserData = {
-  username: string;
+  fullname: string;
   email: string;
   lastLogin: string;
   createdAt: string;
@@ -158,10 +158,10 @@ const UserManagementTable: React.FC = () => {
                     }}
                   />
                 </td>
-                <td>{user.username}</td>
+                <td>{user.fullname}</td>
                 <td>{user.email}</td>
-                <td>{user.lastLogin}</td>
-                <td>{user.createdAt}</td>
+                <td>{new Date(user.lastLogin).toLocaleString()}</td>
+                <td>{new Date(user.createdAt).toLocaleString()}</td>
                 <td>{user.status}</td>
               </tr>
             ))}

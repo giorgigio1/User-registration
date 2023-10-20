@@ -1,9 +1,9 @@
 import * as Yup from "yup";
 
 export const registerValidationSchema = Yup.object().shape({
-  username: Yup.string()
-    .min(2, "Username must be at least 2 characters")
-    .required("Username is required"),
+    fullname: Yup.string()
+    .min(2, "Name must be at least 2 characters")
+    .required("Name is required"),
   email: Yup.string()
     .email("Invalid email address")
     .required("Email is required"),
