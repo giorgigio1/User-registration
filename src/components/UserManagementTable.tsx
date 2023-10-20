@@ -88,7 +88,7 @@ const UserManagementTable: React.FC = () => {
       if (whatToDo === "block" && selcetedIds.includes(decodeToken.userId)) {
         localStorage.removeItem("token");
         window.location.href = "/login";
-        return ;
+        return;
       }
 
       fetchUsers();
